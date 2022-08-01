@@ -1,0 +1,22 @@
+name: SimpleSpeedRunner
+version: '${project.version}'
+main: jp.simplespace.simplespeedrunner.SimpleSpeedRunner
+api-version: 1.19
+authors: [ Matchan ]
+description: 例の妨害スピードランナー
+website: https://simplespace.jp
+
+permissions:
+  ssr.*:
+    description: すべての権限
+    default: op
+    children:
+      ssr.command.*: true
+  ssr.command.*:
+    description: すべてのコマンド権限
+    default: op
+    children:
+      ssr.command.game: true
+  ssr.command.game:
+    description: ゲームコマンド権限
+    default: op
