@@ -56,7 +56,7 @@ public class GameCommand {
         config.set("compassInterval",sec);
         game.getPlugin().saveConfig();
         game.getScheduler().setCompassCount(sec);
-        Bukkit.broadcastMessage(ChatColor.GOLD+"コンパスの座標公開間隔を"+sec+"秒に設定しました。");
+        Bukkit.broadcastMessage(ChatColor.GOLD+"コンパスの更新間隔を"+sec+"秒に設定しました。");
     }
     @Command(
             name = "setrunner",
