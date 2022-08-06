@@ -25,6 +25,7 @@ public class Game {
     private Location nowCompassLocation;
     private int taskId;
     private int deathCount;
+    private boolean isPause;
 
     public Game(Plugin plugin){
         this.plugin=plugin;
@@ -56,8 +57,7 @@ public class Game {
                 player.removePotionEffect(effect.getType());
             }
             player.getInventory().clear();
-            if(!player.getUniqueId().equals(runner)) player.getInventory().addItem(new ItemStack(Material.COMPASS));
-            player.setGameMode(GameMode.SURVIVAL);
+            if(!player.getUniqueId().equals(runner)) player.getInventory().setItem(8,new ItemStack(Material.COMPASS));
         }
         Bukkit.getPlayer(runner).getWorld().setTime(0);
         Bukkit.broadcastMessage(ChatColor.GOLD+"まもなくゲームが開始されます。\nランナーはハンターを攻撃してスタートしてください。");
@@ -128,5 +128,11 @@ public class Game {
     }
     public int getDeathCount(){
         return this.deathCount;
+    }
+    public boolean isPause(){
+        return this.isPause;
+    }
+    public void isPause(boolean boo){
+        this.isPause=boo;
     }
 }

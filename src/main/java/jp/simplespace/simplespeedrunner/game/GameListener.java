@@ -19,6 +19,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.spigotmc.event.player.PlayerSpawnLocationEvent;
@@ -63,7 +64,7 @@ public class GameListener implements Listener {
             event.setCancelled(true);
         }
         if(game.getStatus().equals(Game.Status.RUNNING)){
-            if(event.getItemDrop().getItemStack().getType().equals(Material.COMPASS)){
+            if(event.getItemDrop().getItemStack().getType().equals(Material.COMPASS) || !event.getPlayer().getUniqueId().equals(game.getRunner())){
                 event.setCancelled(true);
             }
         }
@@ -73,8 +74,8 @@ public class GameListener implements Listener {
         Player player = event.getPlayer();
         if(game.getStatus().equals(Game.Status.RUNNING)){
             player.setCompassTarget(game.getNowCompassLocation());
-            if(!player.getInventory().contains(Material.COMPASS)){
-                player.getInventory().addItem(new ItemStack(Material.COMPASS));
+            if(!player.getInventory().contains(Material.COMPASS) || !player.getUniqueId().equals(game.getRunner())){
+                player.getInventory().setItem(8,new ItemStack(Material.COMPASS));
             }
         }
     }
@@ -105,7 +106,7 @@ public class GameListener implements Listener {
         }
         Player player = event.getPlayer();
         if(!player.getUniqueId().equals(game.getRunner())){
-            player.getInventory().addItem(new ItemStack(Material.COMPASS));
+            player.getInventory().setItem(8,new ItemStack(Material.COMPASS));
         }
     }
     @EventHandler

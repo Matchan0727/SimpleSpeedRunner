@@ -25,6 +25,24 @@ public class GameScheduler implements Runnable {
 
     @Override
     public void run() {
+        if(game.isPause()){
+            for(Player player : Bukkit.getOnlinePlayers()){
+                player.spigot().sendMessage(ChatMessageType.ACTION_BAR,new TextComponent(ChatColor.GOLD+"一時停止中..."));
+            }
+            return;
+        }
+        boolean hasJoin = false;
+        for(Player player : Bukkit.getOnlinePlayers()){
+            if(player.getUniqueId().equals(game.getRunner())){
+                hasJoin=true;
+                break;
+            }
+        }
+        if(!hasJoin){
+            game.isPause(true);
+            Bukkit.broadcastMessage(ChatColor.GOLD+"ランナーが退出したためゲームを一時停止させました。");
+            return;
+        }
         count++;
         int min = count / 60;
         int sec = count % 60;

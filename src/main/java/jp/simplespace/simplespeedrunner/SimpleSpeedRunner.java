@@ -21,7 +21,7 @@ public final class SimpleSpeedRunner extends JavaPlugin {
         config = getConfig();
         game = new Game(this);
         drink= Drink.get(this);
-        drink.register(new GameCommand(),"speedrun");
+        drink.register(new GameCommand(),"speedrun","sr").setPermission("ssr.command.game");
         drink.registerCommands();
     }
     @Override
