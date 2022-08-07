@@ -17,10 +17,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.spigotmc.event.player.PlayerSpawnLocationEvent;
 
@@ -31,6 +28,12 @@ public class GameListener implements Listener {
     }
     public Game getGame(){
         return game;
+    }
+    @EventHandler
+    public void onMove(PlayerMoveEvent event){
+        if(game.isPause()){
+            event.setCancelled(true);
+        }
     }
     @EventHandler
     public void onReadyDamage(EntityDamageByEntityEvent event){
@@ -63,18 +66,13 @@ public class GameListener implements Listener {
         if (game.getStatus().equals(Game.Status.READY)) {
             event.setCancelled(true);
         }
-        if(game.getStatus().equals(Game.Status.RUNNING)){
-            if(event.getItemDrop().getItemStack().getType().equals(Material.COMPASS) || !event.getPlayer().getUniqueId().equals(game.getRunner())){
-                event.setCancelled(true);
-            }
-        }
     }
     @EventHandler
     public void onJoin(PlayerJoinEvent event){
         Player player = event.getPlayer();
         if(game.getStatus().equals(Game.Status.RUNNING)){
             player.setCompassTarget(game.getNowCompassLocation());
-            if(!player.getInventory().contains(Material.COMPASS) || !player.getUniqueId().equals(game.getRunner())){
+            if(!player.getInventory().contains(Material.COMPASS) && !player.getUniqueId().equals(game.getRunner())){
                 player.getInventory().setItem(8,new ItemStack(Material.COMPASS));
             }
         }
